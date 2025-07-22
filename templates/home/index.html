@@ -1,0 +1,81 @@
+{% extends "_base.html" %}
+
+{% block title %}AlgoKotha - Job Portal{% endblock %}
+
+{% block content %}
+<main class="container mx-auto px-6">
+    <section class="text-center py-20 fade-in">
+        <h1 class="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-green-300 to-blue-400">
+            Find Dream Jobs from Dream Tech Companies</h1>
+        <p class="text-xl text-gray-400 mb-12 max-w-3xl mx-auto">AlgoKotha scrapes verified job listings
+            directly from company career pages, so you can stop guessing and start applying.</p>
+        <div class="py-20" id="why-choose-us">
+            <h2 class="text-3xl font-bold mb-12 text-center">Why Choose Us</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-lg bg-[var(--background-light)] text-center animated-card"
+                    style="animation-delay: 0.2s;">
+                    <span class="material-icons text-[var(--primary-accent)] text-4xl mb-4">verified</span>
+                    <h3 class="text-xl font-semibold mb-2">Verified Jobs</h3>
+                    <p class="text-gray-400">No more fake listings. We pull jobs directly from official company
+                        career pages.</p>
+                </div>
+                <div class="p-8 rounded-lg bg-[var(--background-light)] text-center animated-card"
+                    style="animation-delay: 0.4s;">
+                    <span class="material-icons text-[var(--primary-accent)] text-4xl mb-4">update</span>
+                    <h3 class="text-xl font-semibold mb-2">Always Updated</h3>
+                    <p class="text-gray-400">Our scrapers run continuously to ensure you get the latest job
+                        postings.</p>
+                </div>
+                <div class="p-8 rounded-lg bg-[var(--background-light)] text-center animated-card"
+                    style="animation-delay: 0.6s;">
+                    <span class="material-icons text-[var(--primary-accent)] text-4xl mb-4">brush</span>
+                    <h3 class="text-xl font-semibold mb-2">Clean &amp; Fast UI</h3>
+                    <p class="text-gray-400">A minimal, professional interface designed for a seamless job
+                        search.</p>
+                </div>
+            </div>
+        </div>
+        <div class="py-20" id="how-it-works">
+            <h2 class="text-3xl font-bold mb-12 text-center">How It Works</h2>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-16 text-lg">
+                <div class="flex flex-col items-center how-it-works-step" style="animation-delay: 0.2s;">
+                    <div
+                        class="w-20 h-20 rounded-full bg-[var(--primary-accent)] flex items-center justify-center text-3xl font-bold mb-3 transition-transform hover:scale-110">
+                        1</div>
+                    <p class="font-semibold">We Scrape</p>
+                    <p class="text-sm text-gray-400">Our bots find jobs.</p>
+                </div>
+                <div class="text-gray-500 text-4xl hidden md:block how-it-works-step" style="animation-delay: 0.4s;">→
+                </div>
+                <div class="flex flex-col items-center how-it-works-step" style="animation-delay: 0.6s;">
+                    <div
+                        class="w-20 h-20 rounded-full bg-[var(--primary-accent)] flex items-center justify-center text-3xl font-bold mb-3 transition-transform hover:scale-110">
+                        2</div>
+                    <p class="font-semibold">We List</p>
+                    <p class="text-sm text-gray-400">Jobs appear here.</p>
+                </div>
+                <div class="text-gray-500 text-4xl hidden md:block how-it-works-step" style="animation-delay: 0.8s;">→
+                </div>
+                <div class="flex flex-col items-center how-it-works-step" style="animation-delay: 1s;">
+                    <div
+                        class="w-20 h-20 rounded-full bg-[var(--primary-accent)] flex items-center justify-center text-3xl font-bold mb-3 transition-transform hover:scale-110">
+                        3</div>
+                    <p class="font-semibold">You Apply</p>
+                    <p class="text-sm text-gray-400">Directly on company site.</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-center space-x-12 md:space-x-24 py-16" id="status-counters">
+            <div class="text-center fade-in" style="animation-delay: 0.5s;">
+                <p class="text-5xl font-bold text-[var(--primary-accent)]">1,250+</p>
+                <p class="text-gray-400 mt-1">Total Jobs Posted</p>
+            </div>
+            <div class="text-center fade-in" style="animation-delay: 0.8s;">
+                <p class="text-5xl font-bold text-[var(--primary-accent)]">150+</p>
+                <p class="text-gray-400 mt-1">Total Verified Companies</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock %}
