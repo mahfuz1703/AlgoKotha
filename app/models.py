@@ -28,6 +28,9 @@ class Jobs(models.Model):
     def __str__(self):
         return f"{self.title} at {self.company.name}"
     
+    def get_FIELD_display(self):
+        return self.get_employmentType_display() if self.employmentType else 'Not specified'
+    
 class companyRequest(models.Model):
     companyName = models.CharField(max_length=255, blank=False, null=False)
     website = models.URLField(max_length=500, blank=True, null=True)

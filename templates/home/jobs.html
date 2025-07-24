@@ -43,25 +43,27 @@
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for job in jobs %}
             <div class="p-6 bg-gray-800 rounded-lg flex flex-col justify-between job-card"
                 style="animation-delay: 0.2s;">
                 <div class="flex items-center space-x-4 mb-4">
                     <img alt="Company logo" class="w-12 h-12 rounded-full"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa26uuh84meE2Q_Omdre05LPRMD3i1hLk1p6LCl5AZ_mntljDpaE7rnwiksXNq1Haw3gMIL5cDwvgeAkmMXG9MdGOH7ETABKPLkYTPbWXVSiA920KEP3R2aaM1hwkD-Oty4OwvkY5-tmON_vbDboKESn0T6CeKdN_ByhuTZuEqXnQK4dA5v1fzxZ14Xy6qDaWDgCjh_kWvNEWlkaN7Jv_4L7H_oq47a2KeaOP8qt_kPAMkWZaMe58sF1EHwhKpSncnQ3kt7j0Y4Q" />
+                        src="{{job.company.logo.url}}" />
                     <div>
-                        <h3 class="text-xl font-semibold text-white">Software Engineer</h3>
-                        <p class="text-gray-400">Stripe</p>
+                        <h3 class="text-xl font-semibold text-white"> {{job.title}} </h3>
+                        <p class="text-gray-400">{{job.company.name}}</p>
                     </div>
                 </div>
-                <p class="text-gray-400 text-sm mb-4">Remote | Full-time</p>
+                <p class="text-gray-400 text-sm mb-4">{{job.location}} | {{job.get_employmentType_display}}</p>
                 <div class="flex items-center space-x-2 mt-auto">
                     <a class="flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition-all"
-                        href="details.html">Details</a>
+                        href=" {% url 'job_details' job.id %} ">Details</a>
                     <a class="flex-1 text-center bg-[var(--primary-accent)] hover:bg-[var(--primary-accent-hover)] text-white px-4 py-2 rounded-md transition-all"
-                        href="#">Apply</a>
+                        href="{{job.applyLink}}" target="_blank">Apply</a>
                 </div>
             </div>
-            <div class="p-6 bg-gray-800 rounded-lg flex flex-col justify-between job-card"
+            {% endfor %}
+            <!-- <div class="p-6 bg-gray-800 rounded-lg flex flex-col justify-between job-card"
                 style="animation-delay: 0.4s;">
                 <div class="flex items-center space-x-4 mb-4">
                     <img alt="Company logo" class="w-12 h-12 rounded-full"
@@ -96,7 +98,7 @@
                     <a class="flex-1 text-center bg-[var(--primary-accent)] hover:bg-[var(--primary-accent-hover)] text-white px-4 py-2 rounded-md transition-all"
                         href="#">Apply</a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </main>
     <!-- <div class="flex items-center justify-center p-4">

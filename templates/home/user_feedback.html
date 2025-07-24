@@ -4,58 +4,98 @@
 
 {% block content %}
 
-<div class="flex items-center justify-center min-h-screen bg-gray-900" id="feedback-page">
-    <div class="w-full max-w-lg p-8 space-y-6" style="background-color: var(--background-light); border-radius: 0.75rem; box-shadow: 0 10px 15px rgba(0,0,0,0.1); animation: fadeIn 1s ease-out forwards;">
+<div class="flex items-center justify-center min-h-[80vh] bg-gray-900" id="feedback-page">
+    <div class="w-full max-w-lg p-8 space-y-6 bg-gray-800 rounded-xl shadow-lg animate-fade-in">
         <h2 class="text-3xl font-bold text-center text-white">Share Your Feedback</h2>
         <p class="text-center text-gray-400">We'd love to hear your thoughts!</p>
-        <form class="space-y-6">
+
+        <form class="space-y-6" method="post" id="feedback-form">
+            {% csrf_token %}
+
             <div>
                 <label class="block text-sm font-medium text-gray-400 mb-2" for="name">Name</label>
-                <input
-                    id="name"
-                    type="text"
-                    placeholder="Your Name"
-                    style="width: 100%; background-color: #374151; border: 1px solid var(--border-color); border-radius: 0.375rem; padding: 0.5rem 1rem; transition: all 0.3s;"
-                    onfocus="this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.3)'"
-                    onblur="this.style.boxShadow='none'"
-                />
+                <input id="name" type="text" name="name" required placeholder="Your Name"
+                    class="w-full bg-gray-700 text-white border border-gray-600 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-400" />
             </div>
+
             <div>
                 <label class="block text-sm font-medium text-gray-400 mb-2" for="email">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    style="width: 100%; background-color: #374151; border: 1px solid var(--border-color); border-radius: 0.375rem; padding: 0.5rem 1rem; transition: all 0.3s;"
-                    onfocus="this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.3)'"
-                    onblur="this.style.boxShadow='none'"
-                />
+                <input id="email" type="email" name="email" required placeholder="you@example.com"
+                    class="w-full bg-gray-700 text-white border border-gray-600 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-400" />
             </div>
+
             <div>
                 <label class="block text-sm font-medium text-gray-400 mb-2" for="message">Message</label>
-                <textarea
-                    id="message"
-                    placeholder="Your feedback..."
-                    rows="5"
-                    style="width: 100%; background-color: #374151; border: 1px solid var(--border-color); border-radius: 0.375rem; padding: 0.5rem 1rem; transition: all 0.3s;"
-                    onfocus="this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.3)'"
-                    onblur="this.style.boxShadow='none'"
-                ></textarea>
+                <textarea id="message" name="feedback" required placeholder="Your feedback..." rows="5"
+                    class="w-full bg-gray-700 text-white border border-gray-600 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-400"></textarea>
             </div>
-            <button
-                type="submit"
-                onclick="this.querySelector('.spinner').style.display='inline-block'"
-                style="width: 100%; background-color: var(--primary-accent); color: white; padding: 0.5rem; border-radius: 0.375rem; font-weight: 600; transition: all 0.3s; display: flex; align-items: center; justify-content: center;"
-                onmouseover="this.style.backgroundColor='var(--primary-accent-hover)'"
-                onmouseout="this.style.backgroundColor='var(--primary-accent)'"
-                class="submit-btn"
-            >
-                <span class="btn-text">Submit Feedback</span>
-                <span class="spinner" style="display: none; width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite;"></span>
+
+            <button type="submit" id="submit-btn"
+                class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md flex items-center justify-center transition">
+                <span>Submit Feedback</span>
+                <span
+                    class="spinner ml-2 hidden w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
             </button>
         </form>
     </div>
 </div>
 
+{% if messages %}
+<div id="toast"
+    class="fixed bottom-4 right-4 z-50 max-w-sm w-full bg-green-500 text-white px-4 py-2 rounded shadow-lg flex justify-between items-start animate-fade-in transition-all duration-300">
+    <div class="flex-1">
+        {% for message in messages %}
+        <p class="text-sm">{{ message }}</p>
+        {% endfor %}
+    </div>
+    <button onclick="hideToast()"
+        class="text-white text-xl font-bold ml-4 leading-none focus:outline-none">&times;</button>
+</div>
+<script>
+    setTimeout(() => {
+        hideToast();
+    }, 5000);
+
+    function hideToast() {
+        const toast = document.getElementById('toast');
+        if (toast) {
+            toast.classList.add('opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }
+    }
+</script>
+{% endif %}
+
+<script>
+    const form = document.getElementById('feedback-form');
+    const spinner = document.querySelector('.spinner');
+
+    form.addEventListener('submit', function (e) {
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+
+        if (!name || !email || !message) {
+            e.preventDefault();
+            alert("Please fill in all fields.");
+        } else {
+            spinner.classList.remove('hidden');
+        }
+    });
+</script>
+
+<style>
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
 
 {% endblock %}
