@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_beat',
 
     # custom apps
     'app',
 ]
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

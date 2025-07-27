@@ -50,16 +50,16 @@
                     <img alt="Company logo" class="w-12 h-12 rounded-full"
                         src="{{job.company.logo.url}}" />
                     <div>
-                        <h3 class="text-xl font-semibold text-white"> {{job.title}} </h3>
+                        <h3 class="text-xl font-semibold text-white"> {{job.job_title}} </h3>
                         <p class="text-gray-400">{{job.company.name}}</p>
                     </div>
                 </div>
-                <p class="text-gray-400 text-sm mb-4">{{job.location}} | {{job.get_employmentType_display}}</p>
+                <p class="text-gray-400 text-sm mb-4">{{job.job_location}} | {{job.job_type}}</p>
                 <div class="flex items-center space-x-2 mt-auto">
                     <a class="flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition-all"
                         href=" {% url 'job_details' job.id %} ">Details</a>
                     <a class="flex-1 text-center bg-[var(--primary-accent)] hover:bg-[var(--primary-accent-hover)] text-white px-4 py-2 rounded-md transition-all"
-                        href="{{job.applyLink}}" target="_blank">Apply</a>
+                        href="{{job.job_link}}" target="_blank">Apply</a>
                 </div>
             </div>
             {% endfor %}

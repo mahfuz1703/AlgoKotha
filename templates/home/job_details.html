@@ -11,30 +11,26 @@
                 <img alt="Stripe logo" class="w-24 h-24 rounded-lg"
                     src="{{job.company.logo.url}}" />
                 <div class="flex-1">
-                    <h2 class="text-4xl font-bold text-white"> {{job.title}} </h2>
-                    <p class="text-xl text-gray-400">{{job.company.name}} - {{job.location}}</p>
+                    <h2 class="text-4xl font-bold text-white"> {{job.job_title}} </h2>
+                    <p class="text-xl text-gray-400">{{job.company.name}} - {{job.job_location}}</p>
                     <span
-                        class="mt-2 inline-block bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-sm"> {{job.get_employmentType_display}} </span>
+                        class="mt-2 inline-block bg-green-500/20 text-green-300 px-3 py-1 rounded-full text-sm"> {{job.job_type}} </span>
                 </div>
             </div>
             <div class="prose prose-invert max-w-none prose-p:text-gray-300 prose-headings:text-white prose-strong:text-white prose-li:marker:text-green-400 mb-8 slide-in-up"
                 style="animation-delay: 0.3s;">
-                <h3 class="text-2xl font-semibold">Job Description</h3>
-                <p>  {{job.description}} </p>
-                <!-- <p>You will be responsible for designing, developing, and maintaining high-quality software
-                    solutions. You will work in a fast-paced, collaborative environment and have a direct impact on
-                    our products and users.</p>
-                <h3 class="text-2xl font-semibold mt-6">Responsibilities</h3>
-                <ul>
-                    <li>Design, build, and maintain efficient, reusable, and reliable code.</li>
-                    <li>Ensure the best possible performance, quality, and responsiveness of applications.</li>
-                    <li>Identify bottlenecks and bugs, and devise solutions to these problems.</li>
-                    <li>Help maintain code quality, organization, and automation.</li>
-                </ul> -->
+                <h3 class="text-2xl font-semibold">Job Details</h3>
+                <p> <strong>Job Vacancies: </strong>  {{job.job_vacancies}} </p>
+                <p> <strong>Job Salary: </strong>  {{job.job_salary}} </p>
+                <p> <strong>Job Salary Type: </strong>  {{job.job_salary_type}} </p>
+                <p> <strong>Office Time: </strong>  {{job.office_time}} </p>
+                <p> <strong>Job Type: </strong>  {{job.job_type}} </p>
+                <p> <strong>Job Location: </strong>  {{job.job_location}} </p>
+                <p> <strong>Job Deadline: </strong>  {{job.job_deadline}} </p>
             </div>
             <button
                 class="bg-[var(--primary-accent)] hover:bg-[var(--primary-accent-hover)] px-8 py-3 rounded-md text-lg font-semibold text-white inline-block transition-transform hover:scale-105 active:scale-95">
-                <a href="{{job.applyLink}}" target="_blank">Apply Now</a>
+                <a href="{{job.job_link}}" target="_blank">Apply Now</a>
             </button>
         </div>
     </main>

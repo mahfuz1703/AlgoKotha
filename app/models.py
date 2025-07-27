@@ -13,23 +13,19 @@ class Companies(models.Model):
     
 class Jobs(models.Model):
     company = models.ForeignKey(Companies, on_delete=models.CASCADE)
-    title = models.CharField(max_length=255, blank=False, null=False)
-    description = models.TextField(blank=False, null=False)
-    location = models.CharField(max_length=255, blank=True, null=True)
-    employmentType = models.CharField(max_length=50, choices=[
-        ('full_time', 'Full Time'),
-        ('part_time', 'Part Time'),
-        ('contract', 'Contract'),
-        ('internship', 'Internship'),
-    ], default='full_time', blank=True, null=True)
-    salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    applyLink = models.URLField(max_length=500, blank=True, null=True)
+    job_link = models.URLField(max_length=500, blank=False, null=False)
+    job_apply_link = models.URLField(max_length=500, blank=True, null=True)
+    job_title = models.CharField(max_length=255, blank=False, null=False)
+    job_vacancies = models.IntegerField(default=0)
+    job_salary = models.CharField(max_length=255, blank=True, null=True)
+    job_salary_type = models.CharField(max_length=50, blank=True, null=True)
+    office_time = models.CharField(max_length=50, blank=True, null=True)
+    job_type = models.CharField(max_length=50, blank=True, null=True)
+    job_location = models.CharField(max_length=255, blank=True, null=True)
+    job_deadline = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.title} at {self.company.name}"
-    
-    def get_FIELD_display(self):
-        return self.get_employmentType_display() if self.employmentType else 'Not specified'
+        return f"{self.job_title} at {self.company.name}"
     
 class companyRequest(models.Model):
     companyName = models.CharField(max_length=255, blank=False, null=False)
