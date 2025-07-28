@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Jobs, Companies, companyRequest, UserFeedback
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.core.paginator import Paginator
 
 # Create your views here.
 def home(request):
@@ -12,8 +13,39 @@ def signin(request):
 
 def jobs(request):
     jobs = Jobs.objects.all()
+    companies = Companies.objects.all()
+
+    # Searching functionality using multiple query using one field
+    search_query = request.GET.get('randomQuery', '')
+
+    # Job search by company name
+    search_by_company = request.GET.get('company', '')
+    if search_by_company:
+        jobs = jobs.filter(company__name__icontains=search_by_company)
+
+
+    if search_query:
+        jobs = jobs.filter(
+            job_title__icontains=search_query
+        ) | jobs.filter(
+            company__name__icontains=search_query
+        ) | jobs.filter(
+            job_location__icontains=search_query
+        ) | jobs.filter(
+            job_type__icontains=search_query
+        ) | jobs.filter(
+            job_salary__icontains=search_query
+        )
+
+    # Implement pagination if needed
+    paginator = Paginator(jobs, 6)  # Show 6 jobs per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'jobs': jobs,
+        'jobs': page_obj,
+        'companies': companies,
+        'count': jobs.count(),
     }
     return render(request, 'home/jobs.html', context)
 

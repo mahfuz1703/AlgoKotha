@@ -20,27 +20,42 @@
 <body class="bg-gray-900 text-gray-200 antialiased">
     <header class="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-8">
+            <!-- Logo + Toggle -->
+            <div class="flex items-center justify-between w-full md:w-auto">
                 <a class="text-2xl font-bold text-white transition-transform hover:scale-105"
                     href="{% url 'home' %}">AlgoKotha</a>
-                <ul class="hidden md:flex items-center space-x-6">
-                    <li><a class="text-gray-300 hover:text-[var(--primary-accent)] transition-colors"
-                            href="{% url 'jobs' %}">Jobs</a></li>
-                    <li><a class="text-gray-300 hover:text-[var(--primary-accent)] transition-colors"
-                            href="{% url 'user_feedback' %}">Feedback</a></li>
-                    <li><a class="text-gray-300 hover:text-[var(--primary-accent)] transition-colors"
-                            href="{% url 'company_request' %}">Company Request</a></li>
-                </ul>
+
+                <!-- Mobile Toggle -->
+                <button id="menu-toggle" class="text-white md:hidden focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </div>
-            <div class="flex items-center space-x-4">
-                <div class="relative hidden md:block">
+
+            <!-- Menu -->
+            <ul id="mobile-menu"
+                class="hidden md:flex flex-col md:flex-row md:items-center md:space-x-6 space-y-4 md:space-y-0 mt-4 md:mt-0 w-full md:w-auto text-center">
+                <li><a class="text-gray-300 hover:text-[var(--primary-accent)] transition-colors"
+                        href="{% url 'jobs' %}">Jobs</a></li>
+                <li><a class="text-gray-300 hover:text-[var(--primary-accent)] transition-colors"
+                        href="{% url 'user_feedback' %}">Feedback</a></li>
+                <li><a class="text-gray-300 hover:text-[var(--primary-accent)] transition-colors"
+                        href="{% url 'company_request' %}">Company Request</a></li>
+            </ul>
+
+            <!-- Right Side -->
+            <div class="hidden md:flex items-center space-x-4">
+                <div class="relative">
                     <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
                     <input
                         class="bg-gray-800 border border-gray-700 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-accent)] transition-all"
                         placeholder="Search for jobs" type="text" />
                 </div>
                 <a class="hidden sm:flex items-center space-x-2 px-4 py-2 bg-gray-800 rounded-md hover:bg-gray-700 transition-colors"
-                    href="#">
+                    href="https://github.com/mahfuz1703/AlgoKotha" target="_blank">
                     <span class="material-icons text-yellow-400">star</span>
                     <span>GitHub</span>
                 </a>
@@ -48,7 +63,26 @@
                     href="{% url 'signin' %}">Sign In</a>
             </div>
         </nav>
+
+        <!-- Mobile Extra Menu -->
+        <div id="mobile-dropdown"
+            class="md:hidden hidden px-6 pb-4 pt-2 space-y-3 flex flex-col border-t border-gray-800 bg-gray-900/90 backdrop-blur-sm">
+            <div class="relative">
+                <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                <input
+                    class="w-full bg-gray-800 border border-gray-700 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-accent)] transition-all"
+                    placeholder="Search for jobs" type="text" />
+            </div>
+            <a class="flex items-center space-x-2 px-4 py-2 bg-gray-800 rounded-md hover:bg-gray-700 transition-colors"
+                href="https://github.com/mahfuz1703/AlgoKotha" target="_blank">
+                <span class="material-icons text-yellow-400">star</span>
+                <span>GitHub</span>
+            </a>
+            <a class="text-center bg-[var(--primary-accent)] hover:bg-[var(--primary-accent-hover)] px-4 py-2 rounded-md font-semibold text-white transition-transform hover:scale-105"
+                href="{% url 'signin' %}">Sign In</a>
+        </div>
     </header>
+
 
     <!-- Your content -->
     {% block content %}
@@ -57,7 +91,9 @@
 
     <footer class="bg-gray-900 border-t border-gray-800">
         <div class="container mx-auto px-6 py-8 text-center text-gray-400">
-            <p>© 2025 AlgoKotha. Developed by Mahfuz.</p>
+            <p>© 2025 AlgoKotha. Developed by
+                <a href="https://github.com/mahfuz1703" target="_blank" style="color: orangered;">Mahfuz.</a>
+            </p>
         </div>
     </footer>
 </body>

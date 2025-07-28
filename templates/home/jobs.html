@@ -4,135 +4,95 @@
 
 {% block content %}
 
-<div class="py-16 bg-[var(--background-light)]  min-h-screen" id="jobs-page">
+<div class="py-16 bg-[var(--background-light)] min-h-[80vh]" id="jobs-page">
     <main class="container mx-auto px-6">
         <h2 class="text-4xl font-bold mb-8 text-center fade-in">Available Jobs</h2>
+
         <div class="mb-8 p-6 bg-gray-900 rounded-lg shadow-lg slide-in-up">
-            <div class="grid md:grid-cols-4 gap-5 items-end">
-                <div class="relative">
-                    <label class="block text-sm font-medium text-gray-400 mb-1" for="keyword-search">Keyword</label>
-                    <input
-                        class="w-full bg-gray-800 border border-gray-700 rounded-md pl-4 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-accent)] transition-shadow"
-                        id="keyword-search" placeholder="Job title, keywords..." type="text" />
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-1" for="company-filter">Company</label>
-                    <select
-                        class="w-full bg-gray-800 border border-gray-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-accent)] transition-shadow"
-                        id="company-filter">
-                        <option>All Companies</option>
-                        <option>Stripe</option>
-                        <option>Spotify</option>
-                        <option>Netflix</option>
-                        <option>Google</option>
-                    </select>
-                </div>
-                <!-- <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1"
-                            for="location-filter">Location</label>
-                        <input
+            <form action="" method="get">
+                {% csrf_token %}
+                <div class="grid md:grid-cols-4 gap-5 items-end">
+                    <div class="relative">
+                        <label class="block text-sm font-medium text-gray-400 mb-1" for="keyword-search">Keyword</label>
+                        <input name="randomQuery"
                             class="w-full bg-gray-800 border border-gray-700 rounded-md pl-4 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-accent)] transition-shadow"
-                            id="location-filter" placeholder="e.g. Remote, New York" type="text" />
-                    </div> -->
-                <button
-                    class="bg-[var(--primary-accent)] hover:bg-[var(--primary-accent-hover)] text-white font-semibold py-2 px-4 rounded-md transition-all hover:scale-105">Filter
-                    Jobs</button>
-                <button
-                    class="bg-[var(--secondary-accent)] hover:bg-[var(--secondary-accent-hover)] text-white font-semibold py-2 px-4 rounded-md transition-all hover:scale-105">Reset
-                    Filter</button>
-            </div>
+                            id="keyword-search" placeholder="Job title, keywords..." type="text"
+                            value="{{ request.GET.randomQuery }}" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-1" for="company-filter">Company</label>
+                        <select name="company" onchange="this.form.submit()"
+                            class="w-full bg-gray-800 border border-gray-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--primary-accent)] transition-shadow"
+                            id="company-filter">
+                            <option value="">All Companies</option>
+                            {% for company in companies %}
+                            <option value="{{ company.name }}" {% if company.name == request.GET.company %}selected{% endif %}>{{ company.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit"
+                        class="bg-[var(--primary-accent)] hover:bg-[var(--primary-accent-hover)] text-white font-semibold py-2 px-4 rounded-md transition-all hover:scale-105">Filter
+                        Jobs</button>
+                    <a href="{% url 'jobs' %}"
+                        class="text-center bg-[var(--secondary-accent)] hover:bg-[var(--secondary-accent-hover)] text-white font-semibold py-2 px-4 rounded-md transition-all hover:scale-105">Reset Filter
+                    </a>
+                </div>
+            </form>
         </div>
+
+        <p class="text-gray-400"> Total {{ count }} jobs found </p> <br>
+
+        <!-- Job Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {% for job in jobs %}
-            <div class="p-6 bg-gray-800 rounded-lg flex flex-col justify-between job-card"
-                style="animation-delay: 0.2s;">
+            <div class="p-6 bg-gray-800 rounded-lg flex flex-col justify-between job-card" style="animation-delay: 0.2s;">
                 <div class="flex items-center space-x-4 mb-4">
-                    <img alt="Company logo" class="w-12 h-12 rounded-full"
-                        src="{{job.company.logo.url}}" />
+                    <img alt="Company logo" class="w-12 h-12 rounded-full" src="{{ job.company.logo.url }}" />
                     <div>
-                        <h3 class="text-xl font-semibold text-white"> {{job.job_title}} </h3>
-                        <p class="text-gray-400">{{job.company.name}}</p>
+                        <h3 class="text-xl font-semibold text-white">{{ job.job_title }}</h3>
+                        <p class="text-gray-400">{{ job.company.name }}</p>
                     </div>
                 </div>
-                <p class="text-gray-400 text-sm mb-4">{{job.job_location}} | {{job.job_type}}</p>
+                <p class="text-gray-400 text-sm mb-4">{{ job.job_location }} | {{ job.job_type }}</p>
                 <div class="flex items-center space-x-2 mt-auto">
                     <a class="flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition-all"
-                        href=" {% url 'job_details' job.id %} ">Details</a>
+                        href="{% url 'job_details' job.id %}">Details</a>
                     <a class="flex-1 text-center bg-[var(--primary-accent)] hover:bg-[var(--primary-accent-hover)] text-white px-4 py-2 rounded-md transition-all"
-                        href="{{job.job_link}}" target="_blank">Apply</a>
+                        href="{{ job.job_link }}" target="_blank">Apply</a>
                 </div>
             </div>
             {% endfor %}
-            <!-- <div class="p-6 bg-gray-800 rounded-lg flex flex-col justify-between job-card"
-                style="animation-delay: 0.4s;">
-                <div class="flex items-center space-x-4 mb-4">
-                    <img alt="Company logo" class="w-12 h-12 rounded-full"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9tCDJGVkyoQk8hDU-j3lO3n6l32frJoQFSMUoTxbehbpzQdI6xIw6WAMBvKN4JEBOCJm3ZNYEsDhUjonx3xeBcBoQwNUoEJuvRtnbNoft2mmN7OTVU39hkLZLtnlw77AOF5irln9Tm5y6TVM_eK5F2ehPCs-UsoemyQMBN0qCBJIvgA07AdnVDHXhDWZ4R5VcHm8mq3EC4GxrYFMI9mO1oFv0D-Ful7eorZc7cq_CBZAmkpWB4g9VVSmO0HrrTjgw0XeCaGW7_w" />
-                    <div>
-                        <h3 class="text-xl font-semibold text-white">Data Analyst</h3>
-                        <p class="text-gray-400">Spotify</p>
-                    </div>
-                </div>
-                <p class="text-gray-400 text-sm mb-4">New York, NY | Contract</p>
-                <div class="flex items-center space-x-2 mt-auto">
-                    <a class="flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition-all"
-                        href="#job-details-page">Details</a>
-                    <a class="flex-1 text-center bg-[var(--primary-accent)] hover:bg-[var(--primary-accent-hover)] text-white px-4 py-2 rounded-md transition-all"
-                        href="#">Apply</a>
-                </div>
-            </div>
-            <div class="p-6 bg-gray-800 rounded-lg flex flex-col justify-between job-card"
-                style="animation-delay: 0.6s;">
-                <div class="flex items-center space-x-4 mb-4">
-                    <img alt="Company logo" class="w-12 h-12 rounded-full"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6Q5wZmDzrB8Jz4sX2RzjwAORmfPKw7TH2yNgc0aADrIBVa3K8h0bbs1R9TDm6vtF8LF0u7GN50lLdyn5Hu3BBtdOKKrGvKcQQO2cPTbZe6WACPISVhss8vh3MijigxasOQs007TIoISMvZiLNshAX6XZvxnZxxKFZbXPr1gnlSAkFbty8t1mAwZJYf6NwPrKJlLgTSiQ2klTJTM5rwDzQ7-aFszbopFwhFmsEN1SlvjsGR5jZS5fC3MV8VgaHF-H0Nm7KJ3vDRA" />
-                    <div>
-                        <h3 class="text-xl font-semibold text-white">Product Designer</h3>
-                        <p class="text-gray-400">Netflix</p>
-                    </div>
-                </div>
-                <p class="text-gray-400 text-sm mb-4">Los Gatos, CA | Full-time</p>
-                <div class="flex items-center space-x-2 mt-auto">
-                    <a class="flex-1 text-center bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition-all"
-                        href="#job-details-page">Details</a>
-                    <a class="flex-1 text-center bg-[var(--primary-accent)] hover:bg-[var(--primary-accent-hover)] text-white px-4 py-2 rounded-md transition-all"
-                        href="#">Apply</a>
-                </div>
-            </div> -->
         </div>
+
+        {% if jobs.has_other_pages %}
+        <div class="mt-10 flex justify-center space-x-2">
+
+            {% if jobs.has_previous %}
+            <a href="?{% if request.GET.randomQuery %}randomQuery={{ request.GET.randomQuery }}&{% endif %}{% if request.GET.company %}company={{ request.GET.company }}&{% endif %}page={{ jobs.previous_page_number }}"
+            class="px-3 py-2 bg-gray-700 text-white rounded hover:bg-gray-600">Previous</a>
+            {% endif %}
+
+            {% for num in jobs.paginator.page_range %}
+                {% if num >= jobs.number|add:'-2' and num <= jobs.number|add:'2' %}
+                    {% if jobs.number == num %}
+                    <span class="px-3 py-2 bg-[var(--primary-accent)] text-white rounded">{{ num }}</span>
+                    {% else %}
+                    <a href="?{% if request.GET.randomQuery %}randomQuery={{ request.GET.randomQuery }}&{% endif %}{% if request.GET.company %}company={{ request.GET.company }}&{% endif %}page={{ num }}"
+                    class="px-3 py-2 bg-gray-700 text-white rounded hover:bg-gray-600">{{ num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            {% if jobs.has_next %}
+            <a href="?{% if request.GET.randomQuery %}randomQuery={{ request.GET.randomQuery }}&{% endif %}{% if request.GET.company %}company={{ request.GET.company }}&{% endif %}page={{ jobs.next_page_number }}"
+            class="px-3 py-2 bg-gray-700 text-white rounded hover:bg-gray-600">Next</a>
+            {% endif %}
+
+        </div>
+        {% endif %}
+
     </main>
-    <!-- <div class="flex items-center justify-center p-4">
-            <a href="#" class="flex size-10 items-center justify-center">
-                <div class="text-white" data-icon="CaretLeft" data-size="18px" data-weight="regular">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
-                        viewBox="0 0 256 256">
-                        <path
-                            d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z">
-                        </path>
-                    </svg>
-                </div>
-            </a>
-            <a class="text-sm font-bold leading-normal tracking-[0.015em] flex size-10 items-center justify-center text-white rounded-full bg-[#20404b]"
-                href="#">1</a>
-            <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-white rounded-full"
-                href="#">2</a>
-            <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-white rounded-full"
-                href="#">3</a>
-            <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-white rounded-full"
-                href="#">4</a>
-            <a class="text-sm font-normal leading-normal flex size-10 items-center justify-center text-white rounded-full"
-                href="#">5</a>
-            <a href="#" class="flex size-10 items-center justify-center">
-                <div class="text-white" data-icon="CaretRight" data-size="18px" data-weight="regular">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor"
-                        viewBox="0 0 256 256">
-                        <path
-                            d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z">
-                        </path>
-                    </svg>
-                </div>
-            </a>
-        </div> -->
 </div>
 
 {% endblock %}
