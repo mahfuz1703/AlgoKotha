@@ -1,12 +1,12 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 class Companies(models.Model):
     name = models.CharField(max_length=255, blank=False, null=False)
     website = models.URLField(max_length=500, blank=True, null=True)
     careerPage = models.URLField(max_length=500, blank=True, null=True)
-    logo = models.ImageField(upload_to='company_logos/', blank=True, null=True)
-    
+    logo = CloudinaryField('image', folder='Company_Logos', blank=True, null=True)
 
     def __str__(self):
         return self.name

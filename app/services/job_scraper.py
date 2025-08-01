@@ -9,6 +9,10 @@ def run_all_scrapers():
             continue
 
         try:
+            # Clear existing jobs for the company
+            Jobs.objects.filter(company=company).delete()
+
+            # Scrape jobs and save them
             job_data = scraper.scrape_jobs()
             for job in job_data:
                 Jobs.objects.get_or_create(
