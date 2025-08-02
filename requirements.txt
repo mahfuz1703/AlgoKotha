@@ -16,6 +16,7 @@ Django==5.2.4
 django-celery-beat==2.8.1
 django-cloudinary-storage==0.3.0
 django-timezone-field==7.1
+djangorestframework==3.16.0
 idna==3.10
 kombu==5.5.4
 packaging==25.0
