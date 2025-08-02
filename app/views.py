@@ -3,8 +3,16 @@ from .models import Jobs, Companies, companyRequest, UserFeedback
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.core.paginator import Paginator
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .services.job_scraper import run_all_scrapers
 
 # Create your views here.
+@api_view(['POST', 'GET'])
+def run_scraper(request):
+    run_all_scrapers()
+    return Response({"message": "Scraping started."})
+
 def home(request):
     return render(request, 'home/index.html')
 

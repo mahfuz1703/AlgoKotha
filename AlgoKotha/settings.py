@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # third-party apps
     'cloudinary',
+    'rest_framework',
 
     # custom apps
     'app',
